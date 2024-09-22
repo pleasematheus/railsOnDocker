@@ -10,7 +10,7 @@ services:
     stdin_open: true  # Permite acesso ao terminal
     tty: true         # Habilita terminal interativo
     volumes:
-      - ./:/          # Mapeia a pasta atual do host para a raiz do container
+      - ./:/home          # Mapeia a pasta atual do host para a raiz do container
 
   postgres:
     image: postgres:16.4-alpine3.20
