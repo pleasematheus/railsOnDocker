@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  ruby:
+    image: ruby:3.1.6-alpine3.20
+    command: >
+      sh -c "apk add --update --no-cache libpq-dev build-base ruby-dev sqlite-dev git vips sqlite-libs tzdata curl sqlite nano &&
+              gem install bundler rails &&
+              tail -f /dev/null"  # Mantém o container em execução
+    stdin_open: true  # Permite acesso ao terminal
+    tty: true         # Habilita terminal interativo
+    volumes:
+      - ./:/          # Mapeia a pasta atual do host para a raiz do container
+
+  postgres:
+    image: postgres:16.4-alpine3.20
+    environment:
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5544:5432"  # Mapeia a porta do Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Volume para persistência de dados
+
+volumes:
+  pgdata:
