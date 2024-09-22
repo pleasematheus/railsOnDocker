@@ -29,8 +29,8 @@ Este projeto utiliza Docker Compose para configurar um ambiente com Ruby e Postg
 1. **Clone o repositório:**
 
    ```bash
-   git clone <url-do-repositorio>
-   cd <nome-do-repositorio>
+   git clone https://github.com/pleasematheus/railsOnDocker.git
+   cd railsOnDocker
    ```
 
 2. **Inicie os containers:**
@@ -61,7 +61,23 @@ O container PostgreSQL utiliza um volume nomeado para garantir que os dados seja
 
 ## Parar os Containers
 
-Para parar e remover os containers, use:
+Se precisar parar os container e não remove-los, use:
+
+```bash
+docker compose stop
+```
+
+## Inicia-los novamente
+
+Caso precise iniciar os container novamente, utilize:
+
+```bash
+docker compose start
+```
+
+## Remover Containers
+
+Para remover os containers, use:
 
 ```bash
 docker-compose down
