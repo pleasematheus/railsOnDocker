@@ -136,7 +136,7 @@ default:
   pool: 5 # Definida por padrão
   database: 
   username: 
-  password: 
+  password: 1234
   host: <container-postgres>
   port: 5432
 ```
