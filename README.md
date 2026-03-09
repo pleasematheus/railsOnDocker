@@ -1,161 +1,168 @@
-# Projeto Docker com Ruby e PostgreSQL
+# Docker Project with Ruby and PostgreSQL
 
-Este projeto utiliza Docker Compose para configurar um ambiente com Ruby e PostgreSQL. O container Ruby é preparado com as dependências necessárias e o container PostgreSQL é configurado para persistir os dados.
+This project uses Docker Compose to set up an environment with Ruby and PostgreSQL. The Ruby container is prepared with the required dependencies, and the PostgreSQL container is configured to persist data.
 
-## Estrutura do Projeto
+## Project Structure
 
 ```
 .
 ├── docker-compose.yml
-└── (outros arquivos do projeto)
+└── (other project files)
 ```
 
-## Tecnologias Usadas
+## Technologies Used
 
-- Ruby 3.1.6 (baseado em Alpine)
-- PostgreSQL 16.4 (baseado em Alpine)
-- Docker e Docker Compose
+- Ruby 3.1.6 (Alpine-based)
+- PostgreSQL 16.4 (Alpine-based)
+- Docker and Docker Compose
 
-## Configuração
+## Setup
 
-### Pré-requisitos
+### Prerequisites
 
 - Docker
 - Docker Compose
 
-### Instruções
+### Instructions
 
-1. **Clone o repositório:**
+1. **Clone the repository:**
 
 ```bash
 git clone https://github.com/pleasematheus/railsOnDocker.git
 cd railsOnDocker
 ```
 
-2. **Inicie os containers:**
+2. **Start the containers:**
 
 ```bash
 docker-compose up
 ```
 
-Isso iniciará os containers de Ruby e PostgreSQL. O container Ruby ficará em execução e disponível para acesso via terminal.
+This will start the Ruby and PostgreSQL containers. The Ruby container will keep running and be available through the terminal.
 
-3. **Acesse o container Ruby:**
+3. **Access the Ruby container:**
 
-Para acessar o terminal do container Ruby, use:
+To access the Ruby container terminal, run:
 
 ```bash
-docker exec -it <nome-do-container-ruby> sh
+docker exec -it <ruby-container-name> sh
 ```
 
-`sh` por ser substituído por `/bin/sh`.
-`ash` ou `/bin/ash` também pode ser utilizado.
+`sh` can be replaced with `/bin/sh`.
+`ash` or `/bin/ash` can also be used.
 
-Substitua `<nome-do-container-ruby>` pelo nome real do container, que pode ser obtido com `docker ps`.
+Replace `<ruby-container-name>` with the actual container name, which you can get with `docker ps`.
 
-### Mapeamento de Diretórios
+### Directory Mapping
 
-- A pasta atual do host está mapeada para a pasta home (`/home`) do container Ruby, permitindo acesso aos arquivos do projeto diretamente no container.
+- The current host folder is mapped to the Ruby container home folder (`/home`), allowing direct access to project files from inside the container.
 
-## Persistência de Dados
+## Data Persistence
 
-O container PostgreSQL utiliza um volume nomeado para garantir que os dados sejam mantidos mesmo se o container for removido.
+The PostgreSQL container uses a named volume to ensure data is kept even if the container is removed.
 
-## Parar os Containers
+## Stop Containers
 
-Se precisar parar os container e não remove-los, use:
+If you need to stop the containers without removing them, run:
 
 ```bash
 docker compose stop
 ```
 
-## Inicia-los novamente
+## Start Containers Again
 
-Caso precise iniciar os container novamente, utilize:
+If you need to start the containers again, run:
 
 ```bash
 docker compose start
 ```
 
-## Remover Containers
+## Remove Containers
 
-Para remover os containers, use:
+To remove the containers, run:
 
 ```bash
 docker-compose down
 ```
 
-## Como conectar no container Ruby
+## How to Connect to the Ruby Container for Development Using VS Code
 
-1. Instale a extensão [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) no seu VSCode;
+1. Install the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension in VS Code.
+2. When VS Code opens, go to the lower-left corner and click `Open a Remote Window`.
+3. Select `Attach to Running Container`.
+4. Select the Ruby container.
+5. A new VS Code window will open and the connection will be established.
+6. Navigate to the `/home` folder.
+7. You're all set :D
 
-2. Ao abrir o VSCode, vá a até o canto inferior esquerdo e clique na opção `Open a Remote Window`;
+## How to Start a Ruby on Rails Project
 
-3. Selecione a opção `Attach to Running Container`;
+1. Run one of the following commands:
 
-4. Selecione o container Ruby;
+   ```bash
+   rails new <project-name>
+   ```
 
-5. Uma nova janela do VSCode será aberta e a conexão será feita;
+   or
 
-6. Navegue até a pasta `/home`;
+   ```bash
+   rails new <project-name> -d postgresql
+   ```
 
-7. Seja feliz :D;
+2. Move into the project folder:
 
-## Como iniciar um projeto em com Ruby on Rails
+   ```bash
+   cd <project-name>
+   ```
 
-1. Utilize o comando:
-```bash
-rails new <nome-do-projeto>
-```
-ou
+3. Install dependencies:
 
-```bash
-rails new <nome-do-projeto> -d postgresql
-```
+   ```bash
+   bundle install
+   ```
 
-2. Entre no caminho do projeto:
-```bash
-cd <nome-do-projeto>
-```
+4. Configure the `database.yml` file inside the `config` folder:
 
-3. Instale o bundle:
-```bash
-bundle install
-```
+   > Remember to replace `<container-postgres>` with the real PostgreSQL container name, which you can get with `docker ps`.
+   > The database name, username, and password should be configured according to your needs and the PostgreSQL container setup.
+   > The example below is a basic development configuration and can be adjusted as needed.
 
-4. Configure o arquivo `database.yml` dentro da pasta `config`:
-```bash
-nano config/database.yml
-```
-Sintaxe do arquivo:
+   ```bash
+   nano config/database.yml
+   ```
 
-```yml
-default:
-  adapter: postgresql
-  encoding: unicode
-  pool: 5 # Definida por padrão
-  database: 
-  username: 
-  password: 1234
-  host: <container-postgres>
-  port: 5432
-```
+   `database.yml` file:
 
-5. Inicie o banco de dados:
-```bash
-rails db:create
-```
+   ```yml
+   default:
+     adapter: postgresql
+     encoding: unicode
+     pool: 5 # Default value
+     database:
+     username:
+     password: 1234
+     host: <container-postgres>
+     port: 5432
+   ```
 
-6. Faça a migração:
-```bash
-rails db:migrate
-```
+5. Create the database:
 
-7. Por fim, inicie o servidor utilizando uma porta diferente da padrão:
-```bash
-rails s -p <porta>
-```
+   ```bash
+   rails db:create
+   ```
 
-## Contribuição
+6. Run migrations:
 
-Sinta-se à vontade para contribuir com este projeto. Abra um pull request ou um issue se encontrar algum problema.
+   ```bash
+   rails db:migrate
+   ```
+
+7. Finally, start the Rails server:
+
+   ```bash
+   rails s -p
+   ```
+
+## Contribution
+
+Feel free to contribute to this project. Open a pull request or an issue if you find any problems.

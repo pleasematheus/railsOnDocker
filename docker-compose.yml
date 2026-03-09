@@ -13,7 +13,7 @@ services:
       - ./:/home          # Mapeia a pasta atual do host para a raiz do container
 
   postgres:
-    image: postgres:16.4-alpine3.20
+    image: postgres:18.3-alpine3.23
     environment:
       POSTGRES_PASSWORD: 1234
     ports:
